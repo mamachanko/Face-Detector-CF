@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 from PIL import Image
-from StringIO import StringIO
+import io
 from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
@@ -13,7 +13,7 @@ port = int(os.getenv("PORT", 9099))
 
 def detect_faces(image):
     faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-    img = Image.open(StringIO(image))
+    img = Image.open(io.BytesIO(image))
     img_cv2 = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2RGBA)
     gray = cv2.cvtColor(img_cv2, cv2.COLOR_RGBA2GRAY)
 
@@ -22,7 +22,7 @@ def detect_faces(image):
         scaleFactor=1.1,
         minNeighbors=5,
         minSize=(30, 30),
-        flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+        flags=cv2.CASCADE_SCALE_IMAGE
     )
     try:
         return faces.tolist()

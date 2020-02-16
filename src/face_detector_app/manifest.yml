@@ -4,6 +4,6 @@ applications:
   memory: 1GB
   disk_quota: 2GB
   instances: 1
-  random-route: false
   buildpack: https://github.com/cloudfoundry/python-buildpack
-  command: python app.py
+  routes:
+  - route: faces.cfapps.io
